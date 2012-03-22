@@ -73,7 +73,7 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             self.send_header('Content-type','application/json')
             if result.has_key('format'):
                 result.pop('format')
-                json.dumps(result)
+                result = json.dumps(result)
         
         self.end_headers()
         
