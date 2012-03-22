@@ -1,29 +1,32 @@
 #! /usr/bin/python
+
 from taf import URLDispatcher, MyHTTPServer, MyHandler
 
 c = URLDispatcher()
 
 @c.get('/path/(?P<a>[0-9]+)\.(?P<format>(json))')
-def func(query, vars):
+def func(vars):
     print 'zahl:'
-    vars['query'] = query
+    print c.query
+    print c.format
+    print c.response.send_header('Content-type','application/asd')
     return vars
 
 @c.get('/path/(?P<a>[a-z]+)')
-def func(query, vars):
+def func(vars):
     print 'buchstabe:'
     return vars
 
 @c.post('/set/(?P<a>[0-9]+)')
-def func(query, vars):
+def func(vars):
     return vars
 
 @c.delete('/delete')
-def func(query, vars):
+def func(vars):
     return vars
 
 @c.put('/put')
-def func(query, vars):
+def func(vars):
     return vars
       
 server = MyHTTPServer(c, ('localhost', 8080), MyHandler)

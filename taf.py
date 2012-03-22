@@ -13,6 +13,9 @@ class MyHTTPServer(BaseHTTPServer.HTTPServer):
 class URLDispatcher(object):
     def __init__(self):
         self.route_list = []
+        self.query = str()
+        self.format = 'json'
+        self.response = None
         
     def get(self, path, method='GET'):
         return self.route(path, method)
@@ -34,7 +37,7 @@ class URLDispatcher(object):
 
 class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     server_version = "TinyAPI"
-
+    
     def parseRequest(self, request_path='/', request_method='GET', request_query=''):
         route_list = self.server.urldispatcher.route_list
         available_routes = [(path, func, method) for path, func, method in route_list if method == request_method]
@@ -44,8 +47,12 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             m = re.match(route, request_path)
             if m is not None:
                 arguments = m.groupdict()
+                print arguments
                 if callable(func):
-                    return func(request_query, arguments)
+                    self.server.urldispatcher.query = request_query
+                    self.server.urldispatcher.format = arguments.get('format')
+                    self.server.urldispatcher.response = self
+                    return func(arguments)
         return False
             
     def do_GET(self):
