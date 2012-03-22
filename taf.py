@@ -26,9 +26,6 @@ class URLDispatcher(object):
     def delete(self, path, method='DELETE'):
         return self.route(path, method)
     
-    def head(self, path, method='HEAD'):
-        return self.route(path, method)
-    
     def route(self, path, method='GET'):
         def decorator(function):
             self.route_list.append((path, function, method))
@@ -36,17 +33,12 @@ class URLDispatcher(object):
         return decorator
 
 class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
+    server_version = "TinyAPI"
+
     def parseRequest(self, request_path='/', request_method='GET', request_query=''):
-        # DEBUG
-        print 'Requested path: \t'+request_path
-        print 'Request method: \t'+request_method
-        print 'Route list: \t\t'+str(self.server.urldispatcher.route_list)
-        # BEBUG END
         route_list = self.server.urldispatcher.route_list
-        available_routes = [(a,b,c) for a,b,c in route_list if c == request_method]
-        
-        print 'Filtered routes: \t'+str(available_routes)
-        
+        available_routes = [(path, func, method) for path, func, method in route_list if method == request_method]
+                
         for route, func, method in available_routes:
             m = None
             m = re.match(route, request_path)
@@ -64,7 +56,27 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
         result = self.parseRequest(request_path, self.command, request_query)
         if result is False:
-            self.send_error(404, 'HAU AB!')
+            self.send_error(404, 'File not found!')
+            return
+            
+        self.send_response(200)
+        
+        ''' TODO: decide among xml and json '''
+        self.send_header('Content-type','application/json')
+        self.end_headers()
+        
+        self.wfile.write(result)
+        return
+    
+    def do_POST(self):
+        ''' executed if POST is requested '''
+        parsed_path = urlparse.urlparse(self.path)
+        request_path = parsed_path.path
+        request_query = parsed_path.query
+
+        result = self.parseRequest(request_path, self.command, request_query)
+        if result is False:
+            self.send_error(404, 'File not found!')
             return
             
         self.send_response(200)
@@ -74,7 +86,38 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         self.wfile.write(result)
         return
     
-    def do_POST(self):
-        ''' executed if POST is requested '''
-        self.send_response(200)
-        return
+    def do_PUT(self):
+            ''' executed if POST is requested '''
+            parsed_path = urlparse.urlparse(self.path)
+            request_path = parsed_path.path
+            request_query = parsed_path.query
+    
+            result = self.parseRequest(request_path, self.command, request_query)
+            if result is False:
+                self.send_error(404, 'File not found!')
+                return
+                
+            self.send_response(200)
+            self.send_header('Content-type','application/json')
+            self.end_headers()
+        
+            self.wfile.write(result)
+            return
+        
+    def do_DELETE(self):
+            ''' executed if POST is requested '''
+            parsed_path = urlparse.urlparse(self.path)
+            request_path = parsed_path.path
+            request_query = parsed_path.query
+    
+            result = self.parseRequest(request_path, self.command, request_query)
+            if result is False:
+                self.send_error(404, 'File not found!')
+                return
+                
+            self.send_response(200)
+            self.send_header('Content-type','application/json')
+            self.end_headers()
+        
+            self.wfile.write(result)
+            return

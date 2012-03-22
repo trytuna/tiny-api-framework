@@ -10,8 +10,20 @@ def func(query, vars):
     return vars
 
 @c.get('/path/(?P<a>[a-z]+)')
-def func(*vars):
+def func(query, vars):
     print 'buchstabe:'
+    return vars
+
+@c.post('/set/(?P<a>[0-9]+)')
+def func(query, vars):
+    return vars
+
+@c.delete('/delete')
+def func(query, vars):
+    return vars
+
+@c.put('/put')
+def func(query, vars):
     return vars
       
 server = MyHTTPServer(c, ('localhost', 8080), MyHandler)
