@@ -4,12 +4,10 @@ from taf import URLDispatcher, MyHTTPServer, MyHandler
 
 c = URLDispatcher()
 
-@c.get('/path/(?P<a>[0-9]+)\.(?P<format>(json))')
+@c.get('/path/(?P<a>[0-9]+)\.(?P<format>(json|xml))')
 def func(vars):
     print 'zahl:'
     print c.query
-    print c.format
-    print c.response.send_header('Content-type','application/asd')
     return vars
 
 @c.get('/path/(?P<a>[a-z]+)')

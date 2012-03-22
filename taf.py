@@ -4,6 +4,7 @@
 import BaseHTTPServer
 import urlparse
 import re
+import json
 
 class MyHTTPServer(BaseHTTPServer.HTTPServer):
     def __init__(self, dispatcher, *args, **kwargs):
@@ -14,8 +15,6 @@ class URLDispatcher(object):
     def __init__(self):
         self.route_list = []
         self.query = str()
-        self.format = 'json'
-        self.response = None
         
     def get(self, path, method='GET'):
         return self.route(path, method)
@@ -50,8 +49,6 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
                 print arguments
                 if callable(func):
                     self.server.urldispatcher.query = request_query
-                    self.server.urldispatcher.format = arguments.get('format')
-                    self.server.urldispatcher.response = self
                     return func(arguments)
         return False
             
@@ -68,11 +65,21 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             
         self.send_response(200)
         
-        ''' TODO: decide among xml and json '''
-        self.send_header('Content-type','application/json')
+        if result.get('format') == 'xml':
+            self.send_header('Content-type','application/xml')
+            result.pop('format')
+            ''' TODO: implement xml output '''
+        else:
+            self.send_header('Content-type','application/json')
+            if result.has_key('format'):
+                result.pop('format')
+                json.dumps(result)
+        
         self.end_headers()
         
         self.wfile.write(result)
+        #self.send_response(200)
+        
         return
     
     def do_POST(self):
