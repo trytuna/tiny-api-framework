@@ -65,21 +65,14 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             
         self.send_response(200)
         
-        if result.get('format') == 'xml':
-            self.send_header('Content-type','application/xml')
-            result.pop('format')
-            ''' TODO: implement xml output '''
-        else:
-            self.send_header('Content-type','application/json')
-            if result.has_key('format'):
-                result.pop('format')
-                result = json.dumps(result)
+        self.send_header('Content-type','application/json')
+        if result.has_key('format'):
+            result = json.dumps(result)
         
         self.end_headers()
         
         self.wfile.write(result)
-        #self.send_response(200)
-        
+                
         return
     
     def do_POST(self):
