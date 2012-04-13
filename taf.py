@@ -1,10 +1,9 @@
-#! /usr/bin/python
 # -*- coding: utf-8 -*-
 
 import BaseHTTPServer
-import urlparse
 import re
 import json
+import urlparse
 
 class MyHTTPServer(BaseHTTPServer.HTTPServer):
     def __init__(self, dispatcher, *args, **kwargs):
@@ -15,6 +14,7 @@ class URLDispatcher(object):
     def __init__(self):
         self.route_list = []
         self.query = str()
+        self.request = {}
         
     def get(self, path, method='GET'):
         return self.route(path, method)
@@ -36,6 +36,8 @@ class URLDispatcher(object):
 
 class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     server_version = "TinyAPI"
+    ''' Implementing content length '''
+    #protocol_version = 'HTTP/1.1'
     
     def parseRequest(self, request_path='/', request_method='GET', request_query=''):
         route_list = self.server.urldispatcher.route_list
@@ -48,7 +50,7 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
                 arguments = m.groupdict()
                 print arguments
                 if callable(func):
-                    self.server.urldispatcher.query = request_query
+                    self.server.urldispatcher.request = self
                     return func(arguments)
         return False
             
@@ -57,22 +59,18 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         parsed_path = urlparse.urlparse(self.path)
         request_path = parsed_path.path
         request_query = parsed_path.query
-
+        
         result = self.parseRequest(request_path, self.command, request_query)
         if result is False:
-            self.send_error(404, 'File not found!')
+            self.send_error(404, 'Request not found!')
             return
-            
-        self.send_response(200)
         
-        self.send_header('Content-type','application/json')
-        if result.has_key('format'):
+        if 'json' in result.get('format'):
+            result.pop('format')
             result = json.dumps(result)
-        
-        self.end_headers()
-        
+            
         self.wfile.write(result)
-                
+        
         return
     
     def do_POST(self):
@@ -80,51 +78,51 @@ class MyHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         parsed_path = urlparse.urlparse(self.path)
         request_path = parsed_path.path
         request_query = parsed_path.query
-
+        
         result = self.parseRequest(request_path, self.command, request_query)
         if result is False:
-            self.send_error(404, 'File not found!')
+            self.send_error(404, 'Request not found!')
             return
-            
-        self.send_response(200)
-        self.send_header('Content-type','application/json')
-        self.end_headers()
-    
-        self.wfile.write(result)
-        return
-    
-    def do_PUT(self):
-            ''' executed if POST is requested '''
-            parsed_path = urlparse.urlparse(self.path)
-            request_path = parsed_path.path
-            request_query = parsed_path.query
-    
-            result = self.parseRequest(request_path, self.command, request_query)
-            if result is False:
-                self.send_error(404, 'File not found!')
-                return
-                
-            self.send_response(200)
-            self.send_header('Content-type','application/json')
-            self.end_headers()
         
-            self.wfile.write(result)
+        if 'json' in result.get('format'):
+            result = json.dumps(result)
+        
+        self.wfile.write(result)
+        
+        return
+    def do_PUT(self):
+        ''' executed if POST is requested '''
+        parsed_path = urlparse.urlparse(self.path)
+        request_path = parsed_path.path
+        request_query = parsed_path.query
+        
+        result = self.parseRequest(request_path, self.command, request_query)
+        if result is False:
+            self.send_error(404, 'Request not found!')
             return
+        
+        if 'json' in result.get('format'):
+            result = json.dumps(result)
+        
+        self.wfile.write(result) 
+               
+        return
         
     def do_DELETE(self):
-            ''' executed if POST is requested '''
-            parsed_path = urlparse.urlparse(self.path)
-            request_path = parsed_path.path
-            request_query = parsed_path.query
-    
-            result = self.parseRequest(request_path, self.command, request_query)
-            if result is False:
-                self.send_error(404, 'File not found!')
-                return
-                
-            self.send_response(200)
-            self.send_header('Content-type','application/json')
-            self.end_headers()
+        ''' executed if POST is requested '''
+        parsed_path = urlparse.urlparse(self.path)
+        request_path = parsed_path.path
+        request_query = parsed_path.query
         
-            self.wfile.write(result)
+        result = self.parseRequest(request_path, self.command, request_query)
+        if result is False:
+            self.send_error(404, 'Request not found!')
             return
+        
+        if 'json' in result.get('format'):
+            result = json.dumps(result)
+        
+        self.wfile.write(result)
+        
+        return
+
