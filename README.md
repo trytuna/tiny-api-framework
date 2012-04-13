@@ -4,12 +4,11 @@
 
 Like this examples in the taf.py you have to use the @get, @post. @put, @head, @delete decorator
 to handle each request
-<pre>
-@get('/path/(?P\<var>[0-9]+)\.(?P<format>(json|xml))')
-def func(vars):
-    print c.request.headers.items()
-    return vars
-</pre>
+    
+    @get('/path/(?P<var>[0-9]+)\.(?P<format>(json|xml))')
+        def func(vars):
+        print c.request.headers.items()
+        return vars
 
 An instance of earch Request is stored in URLDispatchers request variable. 
 You can access it in the requested function like this `c.request.<whatever>`.
