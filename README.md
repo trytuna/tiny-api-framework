@@ -16,7 +16,9 @@ You can access it in the requested function like this `c.request.<whatever>`.
 
 For more clearness print out `dir(c.request)`
 
+`<var>` is stored in `vars`. `vars` is a Dict. Try this in `func`:
 
+`print vars.get('var')`
 
 ## Questions?
 
