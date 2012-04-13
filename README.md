@@ -2,9 +2,23 @@
 
 ## How to use
 
-Like the examples in the taf.py you have to use the @get, @post. @put, @head, @delete decorator
+Like this examples in the taf.py you have to use the @get, @post. @put, @head, @delete decorator
 to handle each request
-<pre>    @c.get('/path/(?P\<a>[0-9]+)\.(?P<format>(json))')
-        def func(query, vars):
-            vars['query'] = query
-            return vars</pre>
+```
+@get('/path/(?P\<var>[0-9]+)\.(?P<format>(json|xml))')
+def func(vars):
+    print c.request.headers.items()
+    return vars
+```
+
+An instance of earch Request is stored in URLDispatchers request variable. 
+You can access it in the requested function like this `c.request.<whatever>`.
+`c` is an instance of URLDispatcher.
+
+For more clearness print out `dir(c.request)`
+
+
+
+## Questions?
+
+Feel free to contact me on Twitter ( twitter.com/timoreinhold ). Feel also free to fork and improve it!
