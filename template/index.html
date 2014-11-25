@@ -84,39 +84,44 @@ div.success p {
     border-bottom-right-radius: 10px;
     border-bottom-left-radius: 10px;
 }
-
-
+/*
+ dunkel blau: 2b557b
+ hell blau: 5381ab
+ 
+ dunkel rot: 952520
+ hell rot: ce332d
+ 
+ schwarz: 172322
+ grau: 4c4c4c
+ old: background: url('noise.png') repeat, -webkit-linear-gradient(top, #5b6470 0%,#464b55 100%);
+*/
 ul#menu {
     list-style-type: none;
     margin: 0px;
     padding-top: 5px;
     padding-left: 15px;
     background: url('noise.png') repeat, -webkit-linear-gradient(top, #5b6470 0%,#464b55 100%);
-    height: 40px;
+    height: 43px;
 }
 
 ul#menu li {
-    display: inline-block;
+    display: inline;
     font: bold 20px Helvetica, Arial, sans-serif;
-    color: #fcfcfe;
-    padding-right: 15px;
-    text-align: center;    
-    vertical-align: middle;    
-    padding: 5px;
+    color: #fcfcfe;  
 }
 
-ul#menu li:hover {
-    display: inline-block;
+ul#menu img {
+    padding: 3px;
+}
+
+ul#menu img:hover {
+    display: inline;
     font: bold 20px Helvetica, Arial, sans-serif;
-    padding-right: 15px;
-    color: #fcfcfe;
-    text-align: center;    
-    vertical-align: middle;
     background-color: #507298;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
-    padding: 5px;
+    padding: 3px;
 }
 
 ul#menu li a {
@@ -169,20 +174,19 @@ bitranch
 </div>
 -->
 <ul id="menu">
-    <li>Serverlist</li>
-    <li>Kontaktdaten</li>
-    <li>Statistiken</li>
-    <li>Konfigurieren</li>
-    <li>Support</li>
-    <li>Hilfe</li>
-    <li>Bestellen</li>
+    <li><img src="iconSweets2/64/light/Display Options/64-List-w_-Images.png" width="32px" height="32px" alt="light 32px"></li>
+    <li><img src="iconSweets2/32/light/Users and User-ettes/32-User-2.png" alt="light 32px"></li>
+    <li><img src="iconSweets2/32/light/Charts/32-Graph.png" alt="light 32px"></li>
+    <li><img src="iconSweets2/32/light/Settings/32-Cog-4.png" alt="light 32px"></li>
+    <li><img src="iconSweets2/32/light/Misc/32-Help.png" alt="light 32px"></li>
+    <li><img src="iconSweets2/32/light/e-Commerce/32-Shopping-Basket.png" alt="Bestellen"></li>
 </ul>
 
 <div id="content">
     <div class="message error"><p>Error – Es ist ein gravierender Fehler aufgetreten</p></div>
     <div class="message warn"><p>Warnung – Es fehlen folgende angaben <br> - Name<br>- Nachname</p></div>
     <div class="message success"><p>Erfolgreich</p></div>
-
+    <article>
     Curabitur blandit tempus porttitor. Nulla vitae elit libero, a pharetra augue.Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Donec ullamcorper nulla non metus auctor fringilla. Donec id elit non mi porta gravida at eget metus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.Vestibulum id ligula porta felis euismod semper. Sed posuere consectetur est at lobortis. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec sed odio dui.<br><br>
     
     Donec ullamcorper nulla non metus auctor fringilla. Cras mattis consectetur purus sit amet fermentum. Donec ullamcorper nulla non metus auctor fringilla. Etiam porta sem malesuada magna mollis euismod. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Nullam quis risus eget urna mollis ornare vel eu leo.<br><br>
@@ -190,13 +194,13 @@ bitranch
     Cras mattis consectetur purus sit amet fermentum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Curabitur blandit tempus porttitor. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam porta sem malesuada magna mollis euismod.<br><br>
     
     Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit. Etiam porta sem malesuada magna mollis euismod. Aenean lacinia bibendum nulla sed consectetur. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.<br><br>
+    </article>
+    
+    
     <blockquote>Curabitur blandit tempus porttitor. Aenean lacinia bibendum nulla sed consectetur. Nulla vitae elit libero, a pharetra augue. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras mattis consectetur purus sit amet fermentum. Maecenas faucibus mollis interdum.<br><br>
     
     Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Nullam id dolor id nibh ultricies vehicula ut id elit.</blockquote>
-    <article>
-    Das ist ein Artikel
-    </article>
-    
+        
     <address>Sit Cursus Inceptos Risus</address>
     
     <h1>Sit Cursus Inceptos Risus</h1>
